@@ -1,25 +1,24 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <title>Личный кабинет</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 <div class="container">
     <div class="header">
         <h2>Личный кабинет</h2>
-        <form th:action="@{/logout}" method="post">
-            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-            <button type="submit" class="btn btn-delete">Выйти</button>
-        </form>
+        <button id="logoutBtn" class="btn btn-delete">Выйти</button>
     </div>
     <div class="card">
-        <p><strong>Имя:</strong> <span th:text="${user.firstName}"></span></p>
-        <p><strong>Фамилия:</strong> <span th:text="${user.lastName}"></span></p>
-        <p><strong>Возраст:</strong> <span th:text="${user.age}"></span></p>
-        <p><strong>Логин:</strong> <span th:text="${user.username}"></span></p>
+        <p><strong>Имя:</strong> <span id="u-firstName">Загрузка...</span></p>
+        <p><strong>Фамилия:</strong> <span id="u-lastName">Загрузка...</span></p>
+        <p><strong>Возраст:</strong> <span id="u-age">Загрузка...</span></p>
+        <p><strong>Логин:</strong> <span id="u-username">Загрузка...</span></p>
     </div>
 </div>
+
+<script src="/js/user.js"></script>
 </body>
 </html>

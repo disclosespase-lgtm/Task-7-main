@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Админ панель</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .roles-container {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        .role-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: #444444;
+            border: 1px solid #555555;
+            border-radius: 8px;
+            padding: 8px 14px;
+            cursor: pointer;
+        }
+        .role-item input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            margin: 0;
+            cursor: pointer;
+        }
+        .role-item span {
+            font-size: 13px;
+            color: #e0e0e0;
+        }
+        .modal {
+            display: none; position: fixed; z-index: 100; left: 0; top: 0;
+            width: 100%; height: 100%; background-color: rgba(0,0,0,0.6);
+            justify-content: center; align-items: center;
+        }
+        .modal-content { animation: fadeIn 0.3s; width: 420px; }
+        @keyframes fadeIn { from {opacity: 0; transform: scale(0.95);} to {opacity: 1; transform: scale(1);} }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h2>Список пользователей</h2>
+        <button id="logoutBtn" class="btn btn-delete">Выйти</button>
+    </div>
+    <table id="usersTable">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Имя</th>
+            <th>Фамилия</th>
+            <th>Возраст</th>
+            <th>Логин</th>
+            <th>Роли</th>
+            <th>Действия</th>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <div style="display: flex; justify-content: center; margin-top: 16px;">
+        <button class="btn btn-add" onclick="openAddModal()">+ Добавить пользователя</button>
+    </div>
+</div>
+
+<div id="userModal" class="modal">
+    <div class="modal-content card">
+        <h2 id="modalTitle" style="margin-bottom: 20px;">Пользователь</h2>
+        <form id="userForm">
+            <input type="hidden" id="form-id">
+
+            <label for="form-firstName">Имя:</label>
+            <input type="text" id="form-firstName" required/>
+
+            <label for="form-lastName">Фамилия:</label>
+            <input type="text" id="form-lastName" required/>
+
+            <label for="form-age">Возраст:</label>
+            <input type="number" id="form-age" required min="1" max="150"/>
+
+            <label for="form-username">Логин:</label>
+            <input type="text" id="form-username" required/>
+
+            <label for="form-password">Пароль:</label>
+            <input type="password" id="form-password"/>
+
+            <label>Роли:</label>
+            <div id="form-roles-container" class="roles-container">
+            </div>
+
+            <div style="display: flex; gap: 10px; margin-top: 20px;">
+                <button type="submit">Сохранить</button>
+                <button type="button" class="btn-delete" onclick="closeModal()" style="margin-top:8px;">Отмена</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="/js/admin.js"></script>
+</body>
+</html>

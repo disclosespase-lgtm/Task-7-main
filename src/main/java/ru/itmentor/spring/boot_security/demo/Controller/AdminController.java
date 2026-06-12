@@ -2,20 +2,25 @@ package ru.itmentor.spring.boot_security.demo.Controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import ru.itmentor.spring.boot_security.demo.model.Role;
 import ru.itmentor.spring.boot_security.demo.model.User;
 import ru.itmentor.spring.boot_security.demo.repository.RoleRepository;
 import ru.itmentor.spring.boot_security.demo.service.UserService;
+import java.util.List;
 
-@Tag(name = "Admin Controller", description = "Контроллер для управления пользователями")
-@Controller
-@RequestMapping("/admin")
+@Tag(name = "Admin RestController", description = "Контроллер для управления пользователями")
+@RestController
+@RequestMapping("/api/admin")
 public class AdminController {
 
     private final UserService userService;
@@ -26,57 +31,45 @@ public class AdminController {
         this.roleRepository = roleRepository;
     }
 
-    @GetMapping(value = "/")
-    public String index() {
-        return "redirect:/admin/users";
-    }
-
     @Operation(summary = "Получить всех пользователей")
-    @GetMapping(value = "/users")
-    public String getAllUsers(Model model) {
-        model.addAttribute("users", userService.getAllUser());
-        return "users";
+    @GetMapping("/users")
+    public ResponseEntity<List<User>> getAllUsers() {
+        List<User> users = userService.getAllUser();
+        return ResponseEntity.ok(users);
     }
 
-    @Operation(summary = "Показать пользователя")
-    @GetMapping(value = "/user")
-    public String getUser(Model model, @RequestParam(value = "id", required = false) Long id) {
-        model.addAttribute("user", userService.getUser(id));
-        return "user";
+    @Operation(summary = "Получить пользователя по ID")
+    @GetMapping("/users/{id}")
+    public ResponseEntity<User> getUser(@PathVariable long id) {
+        User user = userService.getUser(id);
+        return ResponseEntity.ok(user);
     }
 
     @Operation(summary = "Сохранить пользователя")
-    @GetMapping(value = "/new-user")
-    public String addUser(Model model) {
-        model.addAttribute("roles", roleRepository.findAll());
-        model.addAttribute("newUser", new User());
-        return "new-user";
-    }
-
-    @Operation(summary = "Сохраняем кнопкой сейв")
-    @PostMapping(value = "/new-user")
-    public String postAddUser(@ModelAttribute("newUser") User user) {
+    @PostMapping("/users")
+    public ResponseEntity<User> postAddUser(@RequestBody User user) {
         userService.saveUser(user);
-        return "redirect:/admin/users";
+        return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
     @Operation(summary = "Изменить пользователя")
-    @GetMapping(value = "/change-user")
-    public String changeUser(Model model, @RequestParam(value = "id", required = false) Long id) {
-        model.addAttribute("roles", roleRepository.findAll());
-        model.addAttribute("user", userService.getUser(id));
-        return "change-user";
-    }
-
-    @PostMapping(value = "/change-user")
-    public String mergeChangeUser(@ModelAttribute("user") User user) {
+    @PutMapping("/users")
+    public ResponseEntity<User> changeUser(@RequestBody User user) {
         userService.saveUser(user);
-        return "redirect:/admin/users";
+        return ResponseEntity.ok(user);
     }
 
-    @PostMapping(value = "/delete")
-    public String deleteUser(@RequestParam(value = "id", required = false) Long id) {
+    @Operation(summary = "Удалить пользователя по ID")
+    @DeleteMapping("/users/{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable long id) {
         userService.deleteUser(id);
-        return "redirect:/admin/users";
+        return ResponseEntity.ok("Пользователь удален");
+    }
+
+    @Operation(summary = "Получить все роли")
+    @GetMapping("/roles")
+    public ResponseEntity<List<Role>> getAllRoles() {
+        List<Role> roles = roleRepository.findAll();
+        return ResponseEntity.ok(roles);
     }
 }
