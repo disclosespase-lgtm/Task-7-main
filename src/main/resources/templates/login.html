@@ -1,27 +1,30 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Вход</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <title>Вход в систему</title>
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-<div class="container">
-    <div class="card">
-        <h2 style="margin-bottom: 20px;">Вход</h2>
+<div style="display: flex; justify-content: center; align-items: center; min-height: 100vh;">
+    <div class="card" style="width: 360px;">
+        <h2 style="margin-bottom: 20px; text-align: center;">Авторизация</h2>
 
-        <div th:if="${param.error}" style="color: #e57373; margin-bottom: 12px; font-size: 13px;">
+        <div th:if="${param.error}" style="color: #ff5555; margin-bottom: 15px; font-size: 14px; text-align: center;">
             Неверный логин или пароль
+        </div>
+        <div th:if="${param.logout}" style="color: #55ff55; margin-bottom: 15px; font-size: 14px; text-align: center;">
+            Вы успешно вышли из системы
         </div>
 
         <form th:action="@{/login}" method="POST">
-            <label>Логин</label>
-            <input type="text" name="username" placeholder="Введите логин"/>
+            <label for="username">Логин:</label>
+            <input type="text" id="username" name="username" placeholder="Введите логин" required/>
 
-            <label>Пароль</label>
-            <input type="password" name="password" placeholder="Введите пароль"/>
+            <label for="password">Пароль:</label>
+            <input type="password" id="password" name="password" placeholder="Введите пароль" required/>
 
-            <button type="submit" style="margin-top: 12px;">Войти</button>
+            <button type="submit" style="margin-top: 16px; width: 100%;">Войти</button>
         </form>
     </div>
 </div>
