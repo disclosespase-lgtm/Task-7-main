@@ -1,5 +1,6 @@
 package ru.itmentor.spring.boot_security.demo.Controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,6 +9,7 @@ import ru.itmentor.spring.boot_security.demo.service.UserService;
 
 import java.security.Principal;
 
+@Tag(name = "User Controller", description = "Контроллер для управления пользователями")
 @Controller
 @RequestMapping("/user")
 public class UserController {

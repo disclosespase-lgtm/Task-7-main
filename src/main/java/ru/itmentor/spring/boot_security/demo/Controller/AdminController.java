@@ -1,7 +1,7 @@
 package ru.itmentor.spring.boot_security.demo.Controller;
 
 import io.swagger.v3.oas.annotations.Operation;
-import org.springframework.beans.factory.annotation.Autowired;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +13,7 @@ import ru.itmentor.spring.boot_security.demo.model.User;
 import ru.itmentor.spring.boot_security.demo.repository.RoleRepository;
 import ru.itmentor.spring.boot_security.demo.service.UserService;
 
+@Tag(name = "Admin Controller", description = "Контроллер для управления пользователями")
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
